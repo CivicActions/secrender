@@ -18,7 +18,7 @@ You can either run this in a self-contained Docker container (recommended) or in
 
 Running _Secrender_ in a Docker container will allow you to use the tool without needing to install the required Python libraries, or, for that matter, Python.
 
-_Secrender_ has been packaged to run using the [DrydockCloud](https://github.com/CivicActions/drydock) pattern.
+_Secrender_ has been packaged to run using the [DrydockCloud](https://github.com/CivicActions/drydock#what-is-the-drydock-pattern) pattern.
 
 #### Usage
 
