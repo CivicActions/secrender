@@ -17,7 +17,7 @@
 import click
 from yaml import load, FullLoader
 import jinja2
-import os
+import os, datetime
 
 @click.command()
 @click.option('--in', '-i', 'in_',
@@ -44,6 +44,7 @@ def main(in_, template_path, root):
         raise click.ClickException('Key {0} not found in input values'.format(yaml_key))
     
     template_args[template_key] = yaml[yaml_key]
+    template_args['current_date'] = datetime.datetime.today()
     output = template.render(**template_args)
 
     print(output)
