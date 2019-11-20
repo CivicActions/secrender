@@ -1,0 +1,7 @@
+Today is {{ date | default('unknown') }}.
+
+My pets:
+
+{% for pet in pets -%}
+- {{ pet.name }} has {{ pet.color }} fur.
+{% endfor %}
