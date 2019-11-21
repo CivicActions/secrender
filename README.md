@@ -6,10 +6,6 @@ Example tool to render a template using data loaded from a YAML
 file.  One intended use case: load an [OSCAL style](https://pages.nist.gov/OSCAL/documentation/schema/ssp/) YAML file and render
 a Jinja2 template to produce the markdown for SSP front matter.
 
-To better support the above intended use case, by default
-the value of the key 'system_security_plan' in the input values YAML
-is mapped to the template variable 'ssp'.
-
 ## Installation
 
 You can either run this in a self-contained Docker container (recommended) or installed locally using Python.
@@ -49,8 +45,10 @@ secrender --in example-ssp.yaml --template example-ssp.md.j2 >ssp.md
 ## TODO
 
 * would be nice to validate input values against schema
-* root element handling is simplistic
 
 ## License
 
 This project is licensed under the GNU General Public License - see the [LICENSE](LICENSE) file for details.
+
+
+

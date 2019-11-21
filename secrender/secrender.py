@@ -27,27 +27,46 @@ import os, datetime
 @click.option('--template', '-t', 'template_path',
               type=click.Path(exists=True, dir_okay=False, readable=True),
               required=True,
-              help='Output template (Jinja2)')
-@click.option('--root', '-r',
-              default='ssp:system_security_plan',
-              help='Maps the root element -- key_in_template:key_in_yaml')
-def main(in_, template_path, root):
+              help='Template (Jinja2)')
+@click.option('--rename', '-r', nargs=2,
+              multiple=True,
+              help='-r YKEY VAR will define a Jinja2 variable VAR based on the value of YKEY in the YAML file.')
+@click.option('--root', '-R',
+              help='If supplied, names a Jinja2 variable that will hold all the top-level YAML values.')
+@click.option('--set', '-s', 'set_', nargs=2,
+              multiple=True,
+              help='Set a value.  E.g., -s var value')
+@click.option('--output', '-o',
+              type=click.File('w'),
+              default='-',
+              help='Output file (or - for stdout)')
+def main(in_, template_path, rename, root, set_, output):
     with open(in_, "r") as stream:
         yaml = load(stream, Loader=FullLoader)
 
     template = get_template(template_path)
 
     template_args = dict()
-    template_key, yaml_key = root.split(':')
 
-    if yaml_key not in yaml:
-        raise click.ClickException('Key {0} not found in input values'.format(yaml_key))
-    
-    template_args[template_key] = yaml[yaml_key]
+    if root:
+        target = dict()
+        template_args[root] = target
+    else:
+        target = template_args
+        
+    rename_dict = dict((k, v) for (k, v) in rename)
+
+    for key, value in yaml.items():
+        key = rename_dict.get(key, key)
+        target[key] = value
+        
+    for (key, value) in set_:
+        template_args[key] = value
+        
     template_args['current_date'] = datetime.datetime.today()
-    output = template.render(**template_args)
+    rendered = template.render(**template_args)
 
-    print(output)
+    print(rendered, file=output)
 
 def get_template(template_path):
     abs_path = os.path.abspath(template_path)
