@@ -6,15 +6,7 @@ Example tool to render a template using data loaded from a YAML
 file.  One intended use case: load an [OSCAL style](https://pages.nist.gov/OSCAL/documentation/schema/ssp/) YAML file and render
 a Jinja2 template to produce the markdown for SSP front matter.
 
-<<<<<<< HEAD
-To better support the above intended use case, by default
-the value of the key 'system_security_plan' in the input values YAML
-is mapped to the template variable 'ssp'.
-
 ## Installation
-=======
-# Usage
->>>>>>> Add option to set output file.  Default to populating Jinja2 vars with all top-level keys from YAML file; add -r and -R options to set root element and rename variables; add -s option to set var from command line.
 
 You can either run this in a self-contained Docker container (recommended) or installed locally using Python.
 
