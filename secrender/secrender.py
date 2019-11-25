@@ -17,7 +17,7 @@
 import click
 from yaml import load, FullLoader
 import jinja2
-import os, datetime
+import os, os.path, datetime
 
 @click.command()
 @click.option('--in', '-i', 'in_',
@@ -36,11 +36,16 @@ import os, datetime
 @click.option('--set', '-s', 'set_', nargs=2,
               multiple=True,
               help='Set a value.  E.g., -s var value')
-@click.option('--output', '-o',
-              type=click.File('w'),
+@click.option('--output', '-o', 'output_file',
+              type=click.Path(exists=False, allow_dash=True),
               default='-',
               help='Output file (or - for stdout)')
-def main(in_, template_path, rename, root, set_, output):
+@click.option('--output-dir', '-O', 'output_dir',
+              type=click.Path(exists=True, file_okay=False, dir_okay=True),
+              help='Default output directory')
+def main(in_, template_path, rename, root, set_, output_file, output_dir):   
+    output_path = make_output_path(output_file, output_dir)
+
     with open(in_, "r") as stream:
         yaml = load(stream, Loader=FullLoader)
 
@@ -66,7 +71,8 @@ def main(in_, template_path, rename, root, set_, output):
     template_args['current_date'] = datetime.datetime.today()
     rendered = template.render(**template_args)
 
-    print(rendered, file=output)
+    with open(output_path, 'w') as output:
+        print(rendered, file=output)
 
 def get_template(template_path):
     abs_path = os.path.abspath(template_path)
@@ -76,6 +82,14 @@ def get_template(template_path):
     template = templateEnv.get_template(template_file)
 
     return template
+
+def make_output_path(output_file, output_dir):
+    if output_file == '-':
+        return '/dev/stdout'
+    elif os.path.isabs(output_file) or output_dir is None:
+        return output_file
+    else:
+        return os.path.join(output_dir, output_file)
 
 if __name__ == '__main__':
     main()
