@@ -16,6 +16,8 @@
 
 import click
 from yaml import load, FullLoader
+from yamlinclude import YamlIncludeConstructor
+
 import jinja2
 import os, os.path, datetime
 
@@ -41,6 +43,8 @@ import os, os.path, datetime
               type=click.Path(exists=True, file_okay=False, dir_okay=True),
               help='Default output directory')
 def main(in_, template_path, root, set_, output_file, output_dir):   
+    YamlIncludeConstructor.add_to_loader_class(loader_class=FullLoader)
+
     with open(in_, "r") as stream:
         yaml = load(stream, Loader=FullLoader)
 

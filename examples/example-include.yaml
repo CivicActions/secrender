@@ -1,0 +1,5 @@
+pets:
+  - !include dog.yaml
+  - !include cat.yaml
+
+  

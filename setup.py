@@ -12,7 +12,8 @@ setup(
     install_requires=[
         'click',
         'pyyaml',
-        'Jinja2'
+        'pyyaml-include',
+        'Jinja2',
     ],
     entry_points = {
         'console_scripts': ['secrender=secrender.secrender:main']
