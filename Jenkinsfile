@@ -9,9 +9,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                        python -m venv venv
+                        python -m venv /tmp/venv
                         echo $PATH
-                        . venv/bin/activate
+                        . /tmp/venv/bin/activate
                         echo $PATH
                         pip install -r requirements.txt
                        """
@@ -22,9 +22,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                        echo $PATH
-                        . venv/bin/activate
-                        echo $PATH
+                        env
+                        . /tmp/venv/bin/activate
+                        env
                         pip install -e .
                        """
                 }
@@ -34,9 +34,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                        echo $PATH
-                        . venv/bin/activate
-                        echo $PATH
+                        env
+                        . /tmp/venv/bin/activate
+                        env
                         secrender --help
                        """
                 }
