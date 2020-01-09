@@ -31,7 +31,7 @@ pipeline {
                 script {
                     sh """
                         . venv/bin/activate
-                        secrender --help'b
+                        secrender --help
                        """
                 }
             }
