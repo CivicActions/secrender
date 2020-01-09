@@ -16,5 +16,16 @@ pipeline {
                 }
             }
         }
+        stage('Install secrender') {
+            steps {
+                script {
+                    sh """
+                        . venv/bin/activate
+                        pip install -e .
+                       """
+                }
+            }
+        }
+
     }
 }
