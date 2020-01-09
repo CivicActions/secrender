@@ -31,6 +31,8 @@ pipeline {
                 script {
                     sh """
                         . venv/bin/activate
+                        pip list
+                        pip freeze
                         secrender --help
                        """
                 }
