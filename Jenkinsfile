@@ -23,9 +23,9 @@ pipeline {
                     sh """
                         . /tmp/venv/bin/activate
                         cd examples
-                        secrender --in example.yaml --template example.md.j2 --out example.md
+                        secrender --in example.yaml --template example.md.j2 --output example.md
                         cat example.md
-                        secrender --in example-include.yaml --template example.md.j2 --out example.md
+                        secrender --in example-include.yaml --template example.md.j2 --output example.md
                         cat example.md
                        """
                 }
