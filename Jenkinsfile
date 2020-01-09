@@ -33,6 +33,7 @@ pipeline {
                         . venv/bin/activate
                         pip list
                         pip freeze
+                        echo $PATH
                         secrender --help
                        """
                 }
