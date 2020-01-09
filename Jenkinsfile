@@ -29,7 +29,10 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh 'secrender --help'
+                    sh """
+                        . venv/bin/activate
+                        secrender --help'b
+                       """
                 }
             }
         }       
