@@ -20,7 +20,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh("""
+                    sh """
                         . /tmp/venv/bin/activate
                         cd examples
                         secrender --in example.yaml --template example.md.j2 --out example.md
