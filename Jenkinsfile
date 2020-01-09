@@ -22,6 +22,7 @@ pipeline {
                 script {
                     sh """
                         . /tmp/venv/bin/activate
+                        ls
                         secrender --in examples/example.yaml --template examples/examples.md.j2
                         secrender --in examples/example-include.yaml --template examples/examples.md.j2
                        """
