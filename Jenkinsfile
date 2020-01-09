@@ -26,6 +26,12 @@ pipeline {
                 }
             }
         }
-
+        stage('Test') {
+            steps {
+                script {
+                    sh 'secrender --help'
+                }
+            }
+        }       
     }
 }
