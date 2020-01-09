@@ -5,26 +5,13 @@ pipeline {
         }
     }
     stages {
-        stage('Install dependencies') {
+        stage('Install') {
             steps {
                 script {
                     sh """
                         python -m venv /tmp/venv
-                        echo $PATH
                         . /tmp/venv/bin/activate
-                        echo $PATH
                         pip install -r requirements.txt
-                       """
-                }
-            }
-        }
-        stage('Install secrender') {
-            steps {
-                script {
-                    sh """
-                        env
-                        . /tmp/venv/bin/activate
-                        env
                         pip install -e .
                        """
                 }
@@ -34,10 +21,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                        env
                         . /tmp/venv/bin/activate
-                        env
-                        secrender --help
+                        secrender --in examples/example.yaml --template examples/examples.md.j2
+                        secrender --in examples/example-include.yaml --template examples/examples.md.j2
                        """
                 }
             }
