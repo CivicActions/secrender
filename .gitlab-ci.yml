@@ -19,7 +19,7 @@ cache:
   paths:
     - .cache/pip
     - .cache/poetry
-
+    
 before_script:
   - pip install poetry
 
@@ -28,15 +28,30 @@ install:
   script:
     - poetry install
   only:
-    - branches
-  except:
-    - master
-    
-test:
+    - external_pull_requests
+  
+static_analysis:
   stage: test
   script:
-    - poetry run pytests -v tests
+    - poetry run flake8 secrender
   only:
-    - branches
-  except:
-    - master
+    - external_pull_requests
+
+unit_test:
+  stage: test
+  script:
+    - poetry run pytest -v tests
+  only:
+    - external_pull_requests
+
+functional_test:
+  stage: test
+  script:
+    - cd examples
+    - poetry run secrender --in example.yaml --template example.md.j2 --output example.md
+    - cat example.md
+    - poetry run secrender --in example-include.yaml --template example.md.j2 --output example.md
+    - cat example.md
+  only:
+    - external_pull_requests
+

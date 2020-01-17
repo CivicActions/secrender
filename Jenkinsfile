@@ -6,28 +6,52 @@ pipeline {
     }
     stages {
         stage('Install') {
+            environment {
+                POETRY_HOME = "poetry"
+                HOME = "."
+            }
             steps {
                 script {
                     sh """
-                        python -m venv /tmp/venv
-                        . /tmp/venv/bin/activate
-                        pip install -r requirements.txt
-                        pip install -e .
+                        pwd
+                        mkdir -p poetry poetry-cache
+                        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+                        poetry/bin/poetry config cache-dir poetry-cache
+                        poetry/bin/poetry config virtualenvs.in-project true
+                        poetry/bin/poetry install
                        """
                 }
             }
         }
-        stage('Test') {
+        stage('Static Checks') {
             steps {
                 script {
-                    sh """
-                        . /tmp/venv/bin/activate
+                    sh '''
+                        poetry/bin/poetry run flake8 secrender
+                       '''
+                }
+            }
+
+        }
+        stage('Unit Tests') {
+            steps {
+                script {
+                    sh '''
+                        poetry/bin/poetry run pytest -v tests
+                       '''
+                }
+            }
+        }       
+        stage('Functional Tests') {
+            steps {
+                script {
+                    sh '''
                         cd examples
-                        secrender --in example.yaml --template example.md.j2 --output example.md
+                        ../poetry/bin/poetry run secrender --in example.yaml --template example.md.j2 --output example.md
                         cat example.md
-                        secrender --in example-include.yaml --template example.md.j2 --output example.md
+                        ../poetry/bin/poetry run secrender --in example-include.yaml --template example.md.j2 --output example.md
                         cat example.md
-                       """
+                      '''
                 }
             }
         }       
