@@ -37,7 +37,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        poetry/bin/poetry run pytest -v tests
+                        poetry/bin/poetry run coverage run --source=secrender -m pytest -v tests
+                        poetry/bin/poetry run coverage report -m
                        '''
                 }
             }
