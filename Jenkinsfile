@@ -39,8 +39,10 @@ pipeline {
                     sh '''
                         poetry/bin/poetry run coverage run --source=secrender -m pytest -v tests
                         poetry/bin/poetry run coverage report -m
+                        poetry/bin/poetry run coverage html
                        '''
                 }
+                archive includes: 'htmlcov'
             }
         }       
         stage('Functional Tests') {
@@ -55,6 +57,6 @@ pipeline {
                       '''
                 }
             }
-        }       
+        }
     }
 }
