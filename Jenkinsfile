@@ -42,7 +42,14 @@ pipeline {
                         poetry/bin/poetry run coverage html
                        '''
                 }
-                archive includes: 'htmlcov'
+                publishHTML target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'htmlcov',
+                    reportFiles: 'index.html',
+                    reportName: 'Coverage Report'
+                ]
             }
         }       
         stage('Functional Tests') {
