@@ -1,7 +1,7 @@
 stages:
   - install
   - test
-  - deploy
+  - publish
   
 image: python:latest
 
