@@ -66,11 +66,11 @@ functional_test:
 
 pages:
   stage: publish
-  dependences:
+  dependencies:
     - unit_test
   script:
     - mv htmlcov/ public/
-  artifcats:
+  artifacts:
     paths:
       - public
     expire_in: 30 days
