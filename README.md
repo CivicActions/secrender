@@ -48,7 +48,7 @@ secrender --in example-ssp.yaml --template example-ssp.md.j2 >ssp.md
 
 ## License
 
-This project is licensed under the GNU General Public License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU General Public License version 3 or any later version - see the [LICENSE](LICENSE) file for details.
 
 
 
