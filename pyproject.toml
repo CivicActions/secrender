@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "secrender"
-version = "0.5.0"
+version = "0.5.1"
 description = "Render Jinja2 templates using YAML file for substitutions."
 authors = ["Tom Wood <tom.wood@civicactions.com>"]
 license = "CC0-1.0"
@@ -17,6 +17,7 @@ pyyaml = "~5"
 flake8 = "^3.7.9"
 black = {version = "^19.10b0", allow-prereleases = true}
 pytest = "^5.3.2"
+coverage="~5"
 
 [tool.poetry.scripts]
 secrender = "secrender.secrender:main"

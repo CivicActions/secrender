@@ -1,6 +1,7 @@
 stages:
   - install
   - test
+  - publish
   
 image: python:latest
 
@@ -12,9 +13,7 @@ variables:
 
 # Pip's cache doesn't store the python packages
 # https://pip.pypa.io/en/stable/reference/pip_install/#caching
-#
-# If you want to also cache the installed packages, you have to install
-# them in a virtualenv and cache it as well.
+
 cache:
   paths:
     - .cache/pip
@@ -40,7 +39,16 @@ static_analysis:
 unit_test:
   stage: test
   script:
-    - poetry run pytest -v tests
+    - poetry run coverage run --source=secrender -m pytest --junitxml results.xml -v tests
+    - poetry run coverage report -m
+    - poetry run coverage html
+  artifacts:
+    paths:
+      - results.xml
+      - htmlcov/
+    reports:
+      junit: results.xml
+      
   only:
     - external_pull_requests
 
@@ -55,3 +63,15 @@ functional_test:
   only:
     - external_pull_requests
 
+pages:
+  stage: publish
+  dependencies:
+    - unit_test
+  script:
+    - mv htmlcov/ public/
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  only:
+    - master
